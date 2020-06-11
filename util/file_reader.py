@@ -17,6 +17,8 @@ def read_graph_from_file(filename):
     # and create a graph object
     f = open(filename).read().split()
 
+    if f[0] not in ["D", "G"]:
+        raise ValueError("File not proper format")
     directed = True if f[0] == "D" else False
     graph = Graph(directed)
 
@@ -34,4 +36,4 @@ def read_graph_from_file(filename):
     return graph
 if __name__ == '__main__':
 
-    graph = read_graph_from_file("util/graph_medium_undirected.txt")
+    graph = read_graph_from_file("test_files/graph_medium_undirected.txt")
