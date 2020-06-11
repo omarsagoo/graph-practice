@@ -68,6 +68,8 @@ class Graph:
         """
         vertex = Vertex(vertex_id)
         self.__vertex_dict[vertex_id] = vertex
+
+        return vertex
         
 
     def get_vertex(self, vertex_id):
@@ -89,6 +91,9 @@ class Graph:
         vertex = self.get_vertex(vertex_id1)
         vertex2 = self.get_vertex(vertex_id2)
         vertex.add_neighbor(vertex2)
+
+        if self.__is_directed == False:
+            vertex2.add_neighbor(vertex)
         
     def get_vertices(self):
         """
@@ -203,17 +208,17 @@ class Graph:
 
         queue.append(self.get_vertex(start_id))
 
-        for x in range(target_distance):
+        for _ in range(target_distance):
             for _ in range(len(queue)):
                 vertex = queue.pop()
                 if vertex not in visited:
-                    if vertex.get_neighbors() != []:
-                        for neighbor in vertex.get_neighbors():
-                            queue.appendleft(neighbor)
-                            print(queue)
+                    for neighbor in vertex.get_neighbors():
+                        queue.appendleft(neighbor)
+                    visited.add(vertex)
 
         found = []
         for vertex in queue:
-            found.append(vertex.get_id())
+            if vertex not in visited and vertex.get_id() not in found:
+                found.append(vertex.get_id())
 
         return found
