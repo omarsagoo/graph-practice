@@ -22,7 +22,7 @@ class Vertex(object):
         Parameters:
         vertex_obj (Vertex): An instance of Vertex to be stored as a neighbor.
         """
-        pass
+        self.__neighbors_dict[vertex_obj.__id] = vertex_obj
 
     def __str__(self):
         """Output the list of neighbors of this vertex."""
@@ -66,7 +66,8 @@ class Graph:
         Returns:
         Vertex: The new vertex object.
         """
-        pass
+        vertex = Vertex(vertex_id)
+        self.__vertex_dict[vertex_id] = vertex
         
 
     def get_vertex(self, vertex_id):
@@ -85,7 +86,9 @@ class Graph:
         vertex_id1 (string): The unique identifier of the first vertex.
         vertex_id2 (string): The unique identifier of the second vertex.
         """
-        pass
+        vertex = self.get_vertex(vertex_id1)
+        vertex2 = self.get_vertex(vertex_id2)
+        vertex.add_neighbor(vertex2)
         
     def get_vertices(self):
         """
@@ -195,4 +198,22 @@ class Graph:
         Returns:
         list<string>: All vertex ids that are `target_distance` away from the start vertex
         """
-        pass
+        queue = deque()
+        visited = set()
+
+        queue.append(self.get_vertex(start_id))
+
+        for x in range(target_distance):
+            for _ in range(len(queue)):
+                vertex = queue.pop()
+                if vertex not in visited:
+                    if vertex.get_neighbors() != []:
+                        for neighbor in vertex.get_neighbors():
+                            queue.appendleft(neighbor)
+                            print(queue)
+
+        found = []
+        for vertex in queue:
+            found.append(vertex.get_id())
+
+        return found
