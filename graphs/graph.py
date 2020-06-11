@@ -224,33 +224,67 @@ class Graph:
         return found
 
     def is_bipartite(self, vertex_id):
+        """
+        Checks if the graph is Bipartite
+        
+        Arguments:
+        vertex_id (string): The ID of the start Vertex
+        
+        Returns:
+        bool (bool): True or False, if bipartite or not
+        """
+        # get the vertex object with the given ID
         vertex = self.get_vertex(vertex_id)
 
+        # instantiate queue and add the first vertex obj
         queue = deque()
         queue.append(vertex)
 
+        # instantiate visited set, so we do not check the same vertex twice.
         visited = set()
 
+        # instatiate a red set and blue set, to check if the graph is bipartite. 
+        # red and blue are arbitrary names, colors are normaly used to display a bipartite graph
         red = set()
         blue = set()
+
+        # create a counter
         i = 0
 
+        # add the initial vertex to the red set
         red.add(vertex)
+
+        # check while the queue is not empty
         while queue:
+
+            # depending on the counter, set the appropriate sets to be used.
             color_set, opp_set = (red, blue) if i % 2 == 0 else (blue, red)
 
+            # iterate the number of times that there are items in the queue
             for _ in range(len(queue)):
+                # grab the next vertex off the queue
                 vertex = queue.popleft()
-                visited.add(vertex)
 
-                neighbors = vertex.get_neighbors()
-                for neighbor in neighbors:
+                # add it to the visited set, so we do not check this vertex again if cyclical.
+                visited.add(vertex)
+                
+                # go through each neighbor from the vertex and add it into the corresponding set.
+                for neighbor in vertex.get_neighbors():
+
+                    # only add the neighboring vertex if it has not been visited
                     if neighbor not in visited:
                         queue.append(neighbor)
+                    
+                    # check if the neighbor is in the same color set as the current vertex. if it is, return False
                     if neighbor in color_set:
                         return False
+
+                    # add the neighboring vertexes into the opposite color set
                     opp_set.add(neighbor)
+
+            # increment the counter
             i += 1
 
+        # if the program reaches this point, then the graph is bipartite, return True
         return True
 
