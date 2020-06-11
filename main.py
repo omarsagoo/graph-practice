@@ -30,6 +30,9 @@ def print_graph(graph):
         vertices_2_away = graph.find_vertices_n_away(v1, 2)
         print(vertices_2_away)
 
+        # Check if graph is Bipartite
+        print(f'Graph is {"" if graph.is_bipartite(v1) else "not"} Bipartite')
+
 # Driver code
 if __name__ == '__main__':
 

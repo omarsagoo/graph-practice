@@ -222,3 +222,35 @@ class Graph:
                 found.append(vertex.get_id())
 
         return found
+
+    def is_bipartite(self, vertex_id):
+        vertex = self.get_vertex(vertex_id)
+
+        queue = deque()
+        queue.append(vertex)
+
+        visited = set()
+
+        red = set()
+        blue = set()
+        i = 0
+
+        red.add(vertex)
+        while queue:
+            color_set, opp_set = (red, blue) if i % 2 == 0 else (blue, red)
+
+            for _ in range(len(queue)):
+                vertex = queue.popleft()
+                visited.add(vertex)
+
+                neighbors = vertex.get_neighbors()
+                for neighbor in neighbors:
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+                    if neighbor in color_set:
+                        return False
+                    opp_set.add(neighbor)
+            i += 1
+
+        return True
+
