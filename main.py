@@ -43,23 +43,16 @@ if __name__ == '__main__':
         graph = Graph(is_directed=True)
 
         # Add some vertices
-        graph.add_vertex('A')
-        graph.add_vertex('E')
-        graph.add_vertex('B')
-        graph.add_vertex('C')
-        graph.add_vertex('D')
-        graph.add_vertex('H')
-        graph.add_vertex('G')
-        graph.add_vertex('F')
+        vertices = ["A", "E", "B","C","D","H","G","F"]
+        for vertex in vertices:
+            graph.add_vertex(vertex)
 
 
         # Add connections
-        graph.add_edge('A', 'B')
-        graph.add_edge('B', 'C')
-        graph.add_edge('B', 'D')
-        graph.add_edge('D', 'E')
-        graph.add_edge('E', 'F')
-        graph.add_edge('H', 'G')
+        edges = [('A', 'B'),('B', 'C'),('B', 'D'),('D', 'E'),('E', 'F'),('H', 'G')]
+        for edge in edges:
+            v1, v2 = edge
+            graph.add_edge(v1, v2)
 
         # print graph to stdout
         print_graph(graph)
