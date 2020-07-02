@@ -345,3 +345,40 @@ class Graph:
 
         # return all the connected components
         return all_components
+
+    def find_path_dfs_iter(self, start_id, target_id):
+        """
+        Use DFS with a stack to find a path from start_id to target_id.
+        """
+        if not self.contains_id(start_id) or not self.contains_id(target_id):
+            raise KeyError("Vertex not in graph")
+
+        stack = deque(self.get_vertex(start_id))
+
+        while stack:
+            vertex = stack.pop()
+            vertex_id = vertex.get_id()
+
+            neighbors = vertex.get_neighbors()
+
+            for neighbor in neighbors:
+                pass
+
+    def dfs_traversal(self, start_id):
+        """Visit each vertex, starting with start_id, in DFS order."""
+
+        visited = set() # set of vertices we've visited so far
+
+        def dfs_traversal_recursive(start_vertex):
+            print(f'Visiting vertex {start_vertex.get_id()}')
+
+            # recurse for each vertex in neighbors
+            for neighbor in start_vertex.get_neighbors():
+                if neighbor.get_id() not in visited:
+                    visited.add(neighbor.get_id())
+                    dfs_traversal_recursive(neighbor)
+            return
+
+        visited.add(start_id)
+        start_vertex = self.get_vertex(start_id)
+        dfs_traversal_recursive(start_vertex)
