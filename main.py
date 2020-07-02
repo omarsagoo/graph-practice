@@ -33,9 +33,9 @@ def print_graph(graph):
         # Check if graph is Bipartite
         print(f'Graph is {"" if graph.is_bipartite(v1) else "not"} Bipartite')
 
+
 # Driver code
 if __name__ == '__main__':
-
     import sys
 
     if len(sys.argv) == 1:
@@ -46,7 +46,6 @@ if __name__ == '__main__':
         vertices = ["A", "E", "B","C","D","H","G","F"]
         for vertex in vertices:
             graph.add_vertex(vertex)
-
 
         # Add connections
         edges = [('A', 'B'),('B', 'C'),('B', 'D'),('D', 'E'),('E', 'F'),('H', 'G')]
@@ -64,3 +63,4 @@ if __name__ == '__main__':
 
         # print graph to stdout
         print_graph(graph)
+        

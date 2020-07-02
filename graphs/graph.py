@@ -1,4 +1,5 @@
 from collections import deque
+from random import choice
 
 class Vertex(object):
     """
@@ -288,3 +289,59 @@ class Graph:
         # if the program reaches this point, then the graph is bipartite, return True
         return True
 
+    def get_connected_components(self):
+        """
+        Return a list of all connected components, with each connected component
+        represented as a list of vertex ids.
+        """
+        # start at a random vertex in the graph
+        start_id = choice(self.get_vertices())
+
+        # create a set of all the vertices in the graph and remove the starting vertex
+        remaining = set(self.get_vertices())
+        remaining.remove(start_id)
+
+        # create a set of all the vertices we visited
+        visited = set(start_id)
+        
+        # create a queue to keep track of the next vertex to visit
+        queue = deque(self.get_vertex(start_id))
+
+        # create two lists. one for all of the components, and one for the local connected components
+        all_components = list()
+        component = list()
+
+        # while the queue is not empty
+        while queue:
+            # pop from the queue and get the ID of the vertex, then add it to the local components list
+            vertex = queue.popleft()
+            vertex_id = vertex.get_id()
+            component.append(vertex_id)
+
+            # get all the neighbors of the vertex
+            neighbors = vertex.get_neighbors()
+
+            # for each neighbor, if it wasnt seen, iteratively add them to the queue and remove them from the remaining set
+            for neighbor in neighbors:
+                neighbor_id = neighbor.get_id()
+                if neighbor_id not in visited:
+                    visited.add(neighbor_id)
+                    remaining.remove(neighbor_id)
+
+                    queue.append(neighbor)
+
+            # if the queue is empty, append the local components to list of all components.
+            if len(queue) == 0:
+                all_components.append(component)
+                component = list()
+
+                if len(remaining) == 0:
+                    break
+                # get a new vertex from the remaining set and add it to the queue.
+                next_vertex = choice(tuple(remaining))
+                queue.append(self.get_vertex(next_vertex))
+                visited.add(next_vertex)
+                remaining.remove(next_vertex)
+
+        # return all the connected components
+        return all_components
